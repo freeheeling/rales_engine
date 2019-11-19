@@ -41,4 +41,14 @@ namespace :import do
       Transaction.create(row.to_hash)
     end
   end
+
+  desc 'Import items from csv file'
+  task items: :environment do
+
+    file = 'db/data/items.csv'
+
+    CSV.foreach(file, headers: true) do |row|
+      Item.create(row.to_hash)
+    end
+  end
 end
