@@ -31,4 +31,14 @@ namespace :import do
       Invoice.create(row.to_hash)
     end
   end
+
+  desc 'Import transactions from csv file'
+  task transactions: :environment do
+
+    file = 'db/data/transactions.csv'
+
+    CSV.foreach(file, headers: true) do |row|
+      Transaction.create(row.to_hash)
+    end
+  end
 end
