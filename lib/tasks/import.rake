@@ -8,7 +8,7 @@ namespace :import do
     file = 'db/data/merchants.csv'
 
     CSV.foreach(file, headers: true) do |row|
-      Merchant.create(row.to_hash)
+      Merchant.create!(row.to_hash)
     end
   end
 
@@ -18,7 +18,7 @@ namespace :import do
     file = 'db/data/customers.csv'
 
     CSV.foreach(file, headers: true) do |row|
-      Customer.create(row.to_hash)
+      Customer.create!(row.to_hash)
     end
   end
 
@@ -28,7 +28,7 @@ namespace :import do
     file = 'db/data/invoices.csv'
 
     CSV.foreach(file, headers: true) do |row|
-      Invoice.create(row.to_hash)
+      Invoice.create!(row.to_hash)
     end
   end
 
@@ -38,7 +38,7 @@ namespace :import do
     file = 'db/data/transactions.csv'
 
     CSV.foreach(file, headers: true) do |row|
-      Transaction.create(row.to_hash)
+      Transaction.create!(row.to_hash)
     end
   end
 
@@ -48,7 +48,17 @@ namespace :import do
     file = 'db/data/items.csv'
 
     CSV.foreach(file, headers: true) do |row|
-      Item.create(row.to_hash)
+      Item.create!(row.to_hash)
+    end
+  end
+
+  desc 'Import invoice_items from csv file'
+  task invoice_items: :environment do
+
+    file = 'db/data/invoice_items.csv'
+
+    CSV.foreach(file, headers: true) do |row|
+      InvoiceItem.create!(row.to_hash)
     end
   end
 end
