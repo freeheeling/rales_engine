@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :transaction do
     invoice { nil }
-    credit_card_number { "MyString" }
+    credit_card_number {Faker::Number.number(digits: 16)}
     result { "MyString" }
-    created_at { "2019-11-19 16:04:19" }
-    updated_at { "2019-11-19 16:04:19" }
+    created_at {DateTime.now.strftime('%F %T UTC')}
+    updated_at {DateTime.now.strftime('%F %T UTC')}
   end
 end
