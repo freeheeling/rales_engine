@@ -48,6 +48,7 @@ namespace :import do
     file = 'db/data/items.csv'
 
     CSV.foreach(file, headers: true) do |row|
+      row['unit_price'] = row['unit_price'].to_f/100
       Item.create!(row.to_hash)
     end
   end
@@ -58,6 +59,7 @@ namespace :import do
     file = 'db/data/invoice_items.csv'
 
     CSV.foreach(file, headers: true) do |row|
+      row['unit_price'] = row['unit_price'].to_f/100
       InvoiceItem.create!(row.to_hash)
     end
   end
