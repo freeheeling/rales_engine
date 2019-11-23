@@ -22,4 +22,13 @@ class Merchant < ApplicationRecord
       sum('invoice_items.quantity * invoice_items.unit_price').
       to_s
   end
+
+  def favorite_customer
+    customers.joins(:transactions).
+      select('customers.*, count(invoices.customer_id) AS sales').
+      merge(Transaction.successful).
+      group('customers.id').
+      order('sales DESC').
+      first
+  end
 end
