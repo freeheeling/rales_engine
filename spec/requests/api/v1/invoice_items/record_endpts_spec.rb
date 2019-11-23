@@ -8,8 +8,8 @@ RSpec.describe 'Invoice Item API record endpoints' do
     @invoice = create(:invoice)
     @invoice_item = create(
       :invoice_item,
-      quantity: '1',
-      unit_price: '1.23',
+      quantity: '0',
+      unit_price: '0.00',
       item_id: @item.id,
       invoice_id: @invoice.id,
       created_at: '2014-03-27 14:53:59',
@@ -50,7 +50,7 @@ RSpec.describe 'Invoice Item API record endpoints' do
     invoice_item = JSON.parse(response.body, symbolize_names: true)
 
     expect(response).to be_successful
-    expect(invoice_item[:data][:attributes][:id]).to eq(InvoiceItem.ids.first)
+    expect(invoice_item[:data][:attributes][:id]).to eq(@invoice_item.id)
   end
 
   it 'finds record based on invoice item unit price query' do
@@ -96,5 +96,81 @@ RSpec.describe 'Invoice Item API record endpoints' do
 
     expect(response).to be_successful
     expect(invoice_item[:data][:attributes][:id]).to eq(@invoice_item.id)
+  end
+
+  it 'finds all records based on invoice item id query' do
+    get "/api/v1/invoice_items/find_all?id=#{@invoice_item.id}"
+
+    invoice_items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice_items[:data].length).to eq(1)
+    expect(invoice_items[:data][0][:attributes][:id]).to eq(@invoice_item.id)
+  end
+
+  it 'finds all records based on quantity query' do
+    invoice_item2 = create(:invoice_item, quantity: '0')
+    get "/api/v1/invoice_items/find_all?quantity=#{@invoice_item.quantity}"
+
+    invoice_items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice_items[:data].length).to eq(2)
+    expect(invoice_items[:data][0][:attributes][:id]).to eq(@invoice_item.id)
+  end
+
+  it 'finds all records based on unit price query' do
+    invoice_item2 = create(:invoice_item, unit_price: '0.00')
+    get "/api/v1/invoice_items/find_all?unit_price=#{@invoice_item.unit_price}"
+
+    invoice_items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice_items[:data].length).to eq(2)
+    expect(invoice_items[:data][0][:attributes][:id]).to eq(@invoice_item.id)
+  end
+
+  it 'finds all records based on item id query' do
+    invoice_item2 = create(:invoice_item, item_id: @item.id)
+    get "/api/v1/invoice_items/find_all?item_id=#{@invoice_item.item_id}"
+
+    invoice_items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice_items[:data].length).to eq(2)
+    expect(invoice_items[:data][0][:attributes][:id]).to eq(@invoice_item.id)
+  end
+
+  it 'finds all records based on invoice id query' do
+    invoice_item2 = create(:invoice_item, invoice_id: @invoice.id)
+    get "/api/v1/invoice_items/find_all?invoice_id=#{@invoice_item.invoice_id}"
+
+    invoice_items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice_items[:data].length).to eq(2)
+    expect(invoice_items[:data][0][:attributes][:id]).to eq(@invoice_item.id)
+  end
+
+  it 'finds all records based on creation timestamp query' do
+    invoice_item2 = create(:invoice_item, created_at: '2014-03-27 14:53:59')
+    get "/api/v1/invoice_items/find_all?created_at=#{@invoice_item.created_at}"
+
+    invoice_items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice_items[:data].length).to eq(2)
+    expect(invoice_items[:data][0][:attributes][:id]).to eq(@invoice_item.id)
+  end
+
+  it 'finds all records based on update timestamp query' do
+    invoice_item2 = create(:invoice_item, updated_at: '2014-03-27 14:53:59')
+    get "/api/v1/invoice_items/find_all?updated_at=#{@invoice_item.updated_at}"
+
+    invoice_items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice_items[:data].length).to eq(2)
+    expect(invoice_items[:data][0][:attributes][:id]).to eq(@invoice_item.id)
   end
 end
