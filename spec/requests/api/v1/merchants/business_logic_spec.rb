@@ -11,10 +11,8 @@ RSpec.describe 'Merchant API business logic endpoints' do
     item2 = create(:item, merchant: merchant2)
     invoice_item = create(:invoice_item, quantity: '1', unit_price: '1.23', invoice: invoice, item: item)
     invoice_item2 = create(:invoice_item, quantity: '2', unit_price: '1.23', invoice: invoice2, item: item2)
-    transaction = create(:transaction, result: 'failed', invoice: invoice)
-    transaction2 = create(:transaction, result: 'success', invoice: invoice)
-    transaction3 = create(:transaction, result: 'success', invoice: invoice2)
-
+    transaction = create(:transaction, result: 'success', invoice: invoice)
+    transaction2 = create(:transaction, result: 'success', invoice: invoice2)
     get '/api/v1/merchants/most_revenue?quantity=2'
 
     merchants = JSON.parse(response.body, symbolize_names: true)
