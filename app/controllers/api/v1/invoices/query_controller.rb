@@ -7,7 +7,7 @@ class Api::V1::Invoices::QueryController < ApplicationController
 
   def index
     invoices = Invoice.where(query_params)
-    serialized_invoices = InvoiceSerializer.new(invoices)
+    serialized_invoices = InvoiceSerializer.new(invoices.order(:id))
     render json: serialized_invoices
   end
 

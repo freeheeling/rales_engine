@@ -157,4 +157,14 @@ RSpec.describe 'Invoice API record endpoints' do
     expect(invoices[:data].length).to eq(2)
     expect(invoices[:data][0][:id].to_i).to eq(@invoice.id)
   end
+
+  it 'returns a random invoice' do
+    get '/api/v1/invoices/random'
+
+    invoice = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice[:data]).to be_instance_of Hash
+    expect(invoice[:data][:type]).to eq('invoice')
+  end
 end
