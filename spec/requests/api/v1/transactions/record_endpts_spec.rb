@@ -77,7 +77,7 @@ RSpec.describe 'Transaction API record endpoints' do
     transaction = JSON.parse(response.body, symbolize_names: true)
 
     expect(response).to be_successful
-    expect(transaction[:data][:id].to_i).to eq(Transaction.ids.first)
+    expect(transaction[:data][:id].to_i).to eq(Transaction.ids.last)
   end
 
   it 'finds record based on update timestamp query' do
@@ -86,8 +86,79 @@ RSpec.describe 'Transaction API record endpoints' do
     transaction = JSON.parse(response.body, symbolize_names: true)
 
     expect(response).to be_successful
-    expect(transaction[:data][:id].to_i).to eq(Transaction.ids.first)
+    expect(transaction[:data][:id].to_i).to eq(Transaction.ids.last)
   end
 
-  
+  it 'finds all records based on transaction id query' do
+    get "/api/v1/transactions/find_all?id=#{@transaction.id}"
+
+    transactions = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(transactions[:data].length).to eq(1)
+    expect(transactions[:data][0][:id].to_i).to eq(@transaction.id)
+  end
+
+  it 'finds all records based on credit_card_number query' do
+    transaction2 = create(
+      :transaction,
+      credit_card_number: @transaction.credit_card_number
+    )
+
+    get "/api/v1/transactions/find_all?credit_card_number=#{@transaction.credit_card_number}"
+
+    transactions = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(transactions[:data].length).to eq(2)
+    expect(transactions[:data][0][:id].to_i).to eq(@transaction.id)
+  end
+
+  it 'finds all records based on transaction result query' do
+    transaction2 = create(:transaction, result: 'failed')
+
+    get "/api/v1/transactions/find_all?result=#{@transaction.result}"
+
+    transactions = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(transactions[:data].length).to eq(2)
+    expect(transactions[:data][0][:id].to_i).to eq(@transaction.id)
+  end
+
+  it 'finds all records based on invoice id query' do
+    transaction2 = create(:transaction, invoice_id: @invoice.id)
+
+    get "/api/v1/transactions/find_all?invoice_id=#{@transaction.invoice_id}"
+
+    transactions = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(transactions[:data].length).to eq(2)
+    expect(transactions[:data][0][:id].to_i).to eq(@transaction.id)
+  end
+
+  it 'finds all records based on creation timestamp query' do
+    transaction2 = create(:transaction, created_at: @transaction.created_at)
+
+    get "/api/v1/transactions/find_all?created_at=#{@transaction.created_at}"
+
+    transactions = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(transactions[:data].length).to eq(2)
+    expect(transactions[:data][0][:id].to_i).to eq(@transaction.id)
+  end
+
+  it 'finds all records based on update timestamp query' do
+    transaction2 = create(:transaction, updated_at: @transaction.updated_at)
+
+    get "/api/v1/transactions/find_all?updated_at=#{@transaction.updated_at}"
+
+    transactions = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(transactions[:data].length).to eq(2)
+    expect(transactions[:data][0][:id].to_i).to eq(@transaction.id)
+  end
 end
