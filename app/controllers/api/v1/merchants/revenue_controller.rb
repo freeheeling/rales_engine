@@ -4,4 +4,10 @@ class Api::V1::Merchants::RevenueController < ApplicationController
     serialized_merchants = MerchantSerializer.new(merchants)
     render json: serialized_merchants
   end
+
+  def show
+    revenue = Merchant.revenue_on_date(params[:date])
+    hashed_revenue = MerchantRevenue.new(revenue).hash
+    render json: hashed_revenue
+  end
 end
