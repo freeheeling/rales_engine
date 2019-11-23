@@ -12,4 +12,16 @@ RSpec.describe 'Invoice Item API relationship endpoints' do
     expect(response).to be_successful
     expect(invoice_item_j[:data][:attributes][:id]).to eq(invoice.id)
   end
+
+  it 'returns item associated with an invoice item' do
+    item = create(:item)
+    invoice_item = create(:invoice_item, item: item)
+
+    get "/api/v1/invoice_items/#{invoice_item.id}/item"
+
+    invoice_item_j = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice_item_j[:data][:attributes][:id]).to eq(item.id)
+  end
 end
