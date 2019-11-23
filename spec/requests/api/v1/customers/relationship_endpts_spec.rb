@@ -13,4 +13,16 @@ RSpec.describe 'Customer API relationship endpoints' do
     expect(response).to be_successful
     expect(invoices_j[:data].length).to eq(2)
   end
+
+  it 'returns collection of transactions associated with customer' do
+    customer = create(:customer)
+    merchant = create(:merchant)
+    invoice = create(:invoice, merchant: merchant, customer: customer)
+    transactions = create_list(:transaction, 2, invoice: invoice)
+
+    get "/api/v1/customers/#{customer.id}/transactions"
+
+    transactions_j = JSON.parse(response.body, symbolize_names: true)
+    expect(transactions_j[:data].length).to eq(2)
+  end
 end
