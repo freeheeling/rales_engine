@@ -5,6 +5,12 @@ class Api::V1::Items::QueryController < ApplicationController
     render json: serialized_item
   end
 
+  def index
+    items = Item.where(query_params)
+    serialized_items = ItemSerializer.new(items.order(:id))
+    render json: serialized_items
+  end
+
   private
     def query_params
       params.permit(:id,
