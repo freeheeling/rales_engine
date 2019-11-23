@@ -32,6 +32,9 @@ Rails.application.routes.draw do
       end
       resources :invoices, only: [:index, :show]
 
+      namespace :transactions do
+        get '/find', to: 'query#show'
+      end
       resources :transactions, only: [:index, :show]
     end
   end
