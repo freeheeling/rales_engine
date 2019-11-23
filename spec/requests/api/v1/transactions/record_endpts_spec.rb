@@ -161,4 +161,14 @@ RSpec.describe 'Transaction API record endpoints' do
     expect(transactions[:data].length).to eq(2)
     expect(transactions[:data][0][:id].to_i).to eq(@transaction.id)
   end
+
+  it 'returns a random transaction' do
+    get '/api/v1/transactions/random'
+
+    transaction = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(transaction[:data]).to be_instance_of Hash
+    expect(transaction[:data][:type]).to eq('transaction')
+  end
 end
