@@ -11,4 +11,15 @@ RSpec.describe 'Invoice API record endpoints' do
     expect(response).to be_successful
     expect(invoices[:data].length).to eq(3)
   end
+
+  it 'returns show record by id' do
+    id = create(:invoice).id
+
+    get "/api/v1/invoices/#{id}"
+
+    invoice = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(invoice[:data][:id].to_i).to eq(id)
+  end
 end
