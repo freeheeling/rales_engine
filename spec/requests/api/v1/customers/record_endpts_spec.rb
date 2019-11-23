@@ -32,4 +32,50 @@ RSpec.describe 'Customer API record endpoints' do
     expect(response).to be_successful
     expect(customer[:data][:id].to_i).to eq(id)
   end
+
+  it 'finds record based on customer id query' do
+
+    get "/api/v1/customers/find?id=#{@customer.id}"
+
+    customer = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(customer[:data][:id].to_i).to eq(@customer.id)
+  end
+
+  it 'finds record based on customer first_name param' do
+    get "/api/v1/customers/find?first_name=#{@customer.first_name}"
+
+    customer = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(customer[:data][:attributes][:first_name]).to eq(@customer.first_name)
+  end
+
+  it 'finds record based on customer last_name param' do
+    get "/api/v1/customers/find?last_name=#{@customer.last_name}"
+
+    customer = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(customer[:data][:attributes][:last_name]).to eq(@customer.last_name)
+  end
+
+  it 'finds record based on creation timestamp' do
+    get "/api/v1/customers/find?created_at=#{@customer.created_at}"
+
+    customer = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(customer[:data][:id].to_i).to eq(@customer.id)
+  end
+
+  it 'finds record based on update timestamp' do
+    get "/api/v1/customers/find?updated_at=#{@customer.updated_at}"
+
+    customer = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(customer[:data][:id].to_i).to eq(@customer.id)
+  end
 end
