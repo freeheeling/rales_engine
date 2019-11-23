@@ -5,6 +5,12 @@ class Api::V1::Customers::QueryController < ApplicationController
     render json: serialized_customer
   end
 
+  def index
+    customers = Customer.where(query_params)
+    serialized_customers = CustomerSerializer.new(customers)
+    render json: serialized_customers
+  end
+
   private
     def query_params
       params.permit(:id, :first_name, :last_name, :created_at, :updated_at)
