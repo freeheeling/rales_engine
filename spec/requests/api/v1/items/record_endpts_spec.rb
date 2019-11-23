@@ -10,5 +10,16 @@ RSpec.describe 'Item API record endpoints' do
 
     expect(response).to be_successful
     expect(items[:data].length).to eq(3)
-  end  
+  end
+
+  it 'returns show record by item id' do
+    id = create(:item).id
+
+    get "/api/v1/items/#{id}"
+
+    item = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(item[:data][:id].to_i).to eq(id)
+  end
 end
