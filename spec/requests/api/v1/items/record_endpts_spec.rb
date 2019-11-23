@@ -180,4 +180,14 @@ RSpec.describe 'Item API record endpoints' do
     expect(items[:data].length).to eq(2)
     expect(items[:data][0][:id].to_i).to eq(@item.id)
   end
+
+  it 'returns a random item' do
+    get '/api/v1/items/random'
+
+    item = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(item[:data]).to be_instance_of Hash
+    expect(item[:data][:type]).to eq('item')
+  end
 end

@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       namespace :items do
         get '/find', to: 'query#show'
         get '/find_all', to: 'query#index'
+        get '/random', to: 'random#show'
       end
       resources :items, only: [:index, :show]
     end
