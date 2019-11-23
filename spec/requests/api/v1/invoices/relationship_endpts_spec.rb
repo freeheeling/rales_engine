@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Invoice API relationship endpoints' do
   before :each do
-    @invoice = create(:invoice)
+    @customer = create(:customer)
+    @invoice = create(:invoice, customer: @customer)
   end
 
   it 'returns collection of transactions associated with an invoice' do
@@ -40,5 +41,14 @@ RSpec.describe 'Invoice API relationship endpoints' do
 
     expect(response).to be_successful
     expect(items_j[:data].length).to eq(2)
+  end
+
+  it 'returns customer associated with an invoice' do
+    get "/api/v1/invoices/#{@invoice.id}/customer"
+
+    customer_j = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(customer_j[:data][:id].to_i).to eq(@customer.id)
   end
 end
