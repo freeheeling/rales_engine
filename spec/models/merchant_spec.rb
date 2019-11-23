@@ -38,4 +38,20 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.revenue_on_date(@invoice.created_at)).to eq('7.0')
     end
   end
+
+  describe 'instance methods' do
+    it 'favorite customer' do
+      merchant = create(:merchant)
+      customer = create(:customer)
+      customer2 = create(:customer)
+      invoice = create(:invoice, merchant: merchant, customer: customer)
+      invoice2 = create(:invoice, merchant: merchant, customer: customer2)
+      invoice3 = create(:invoice, merchant: merchant, customer: customer2)
+      create(:transaction, result: 'success', invoice: invoice)
+      create(:transaction, result: 'success', invoice: invoice2)
+      create(:transaction, result: 'success', invoice: invoice3)
+
+      expect(merchant.favorite_customer).to eq(customer2)
+    end
+  end
 end
