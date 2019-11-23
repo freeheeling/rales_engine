@@ -136,4 +136,14 @@ RSpec.describe 'Customer API record endpoints' do
     expect(customers[:data].length).to eq(2)
     expect(customers[:data][0][:id].to_i).to eq(@customer.id)
   end
+
+  it 'returns a random customer' do
+    get '/api/v1/customers/random'
+
+    customer = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(customer[:data]).to be_instance_of Hash
+    expect(customer[:data][:type]).to eq('customer')
+  end
 end

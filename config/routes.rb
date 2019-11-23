@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       namespace :customers do
         get '/find', to: 'query#show'
         get '/find_all', to: 'query#index'
+        get '/random', to: 'random#show'
       end
       resources :customers, only: [:index, :show]
     end
