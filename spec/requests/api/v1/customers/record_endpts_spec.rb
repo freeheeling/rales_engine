@@ -34,7 +34,6 @@ RSpec.describe 'Customer API record endpoints' do
   end
 
   it 'finds record based on customer id query' do
-
     get "/api/v1/customers/find?id=#{@customer.id}"
 
     customer = JSON.parse(response.body, symbolize_names: true)
