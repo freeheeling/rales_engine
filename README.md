@@ -100,7 +100,7 @@ GET /api/v1/merchants/:id/favorite_customer  # returns the customer who has cond
 GET /api/v1/items/most_revenue?quantity=x  # returns the top `x` items ranked by total revenue generated
 GET /api/v1/items/:id/best_day             # returns the date with the most sales for a given item
 ```
-#### Cutomers
+#### Customers
 ```
 GET /api/v1/customers/:id/favorite_merchant  # returns the merchant for which a given customer has conducted the most successful transactions
 ```
