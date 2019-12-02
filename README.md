@@ -7,7 +7,16 @@ Rales Engine utilizes the Ruby on Rails framework and [Fast JSON API](https://gi
 - clone down the repository: `$ git clone https://github.com/freeheeling/rales_engine.git`
 - change into directory: `$ cd rales_engine`
 - run bundler: `$ bundle intsall`
-- prepare the database: `$ rake db:{create,migrate}`, then `$ rake import`
+- prepare the database: `$ rake db:{create,migrate}` 
+- then: 
+  ```
+  $ rake import:merchants
+  $ rake import:customers
+  $ rake import:invoices
+  $ rake import:transactions
+  $ rake import:items
+  $ rake import:invoice_items
+  ```
 - initialize Rails server: `$ rails s`
 - open browser, and visit: `http://localhost:3000`, which serves as the domain for all resource endpoints
 
